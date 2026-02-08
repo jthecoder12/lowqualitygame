@@ -1,0 +1,30 @@
+name: Game binary
+
+on: workflow_dispatch
+
+jobs:
+  build-windows-x64:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-raylib
+      - name: Compile for Windows
+        shell: msys2 {0}
+        run: |
+          mkdir build
+          gcc main.c -lraylib -o build/LowQualityGame.exe
+          mv Untitled.* build
+          cp /ucrt64/bin/glfw3.dll build
+          cp /ucrt64/bin/libraylib.dll build
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windows x64
+          path: build/
