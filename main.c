@@ -13,6 +13,11 @@ int main() {
     Texture2D 🗨️ = LoadTexture("Untitled.jpg");
     Texture2D 🟢 = LoadTexture("Untitled.bmp");
 
+    InitAudioDevice();
+
+    Music 🔊 = LoadMusicStream("Untitled.ogg");
+    🔊.looping = true;
+
     int 🦤 = 800, 🐔 = 100;
     int 🍎 = 0, 🥀 = 0;
 
@@ -23,8 +28,12 @@ int main() {
 
     srand(time(NULL));    
 
+    PlayMusicStream(🔊);
+
     while(!WindowShouldClose()) {
         BeginDrawing();
+
+        UpdateMusicStream(🔊);
 
         char 🐜[1234];
         strcpy(🐜, "FPS: ");
